@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
+import { ModeComment } from "@mui/icons-material"
 import { collection, doc, setDoc, orderBy, onSnapshot,query} from "@firebase/firestore"; 
 import {db} from '../firebase'
+import Todo from '../components/todo'
 const TodoList = () => {
     const [todos, setTodos] = useState([])
     useEffect(() => {
@@ -17,7 +19,11 @@ const TodoList = () => {
 },[])
     return(
         <div>
-            {todos.map(todo => <div key={todo.id}>{todo.fruits}</div>)}
+            {todos.map(todo => <Todo key={todo.id}
+            title={todo.title}
+            detail={todo.detail}
+            timestamp={todo.timestamp}
+            />)}
         </div>
     )
 
