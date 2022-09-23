@@ -30,7 +30,7 @@ export default function Home() {
       <TodoForm />
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={alertType} sx={{ width: '100%' }}>
-          This is a success message!
+          {alertMessage}
         </Alert>
       </Snackbar>
       <TodoList />

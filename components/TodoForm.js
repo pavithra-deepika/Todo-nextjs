@@ -18,7 +18,7 @@ const TodoForm = () => {
     }
     return (
         <div>
-            <TextField fulWidth label="title" margin="normal"
+            <TextField fullWidth label="title" margin="normal"
             value={todo.title}
             onChange={e => setTodo({ ...todo, title: e.target.value})}
             />

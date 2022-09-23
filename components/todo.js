@@ -1,11 +1,36 @@
 import  moment from "moment"
-import { ListItem, ListItemText } from "@mui/material"
+import { IconButton, ListItem, ListItemText } from "@mui/material"
+import { Delete } from "@mui/icons-material"
+import DeleteIcon from '@mui/icons-material/Delete';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../firebase";
+import { useContext } from "react";
+import { TodoContext } from "../pages/TodoContext";
 
 const Todo = ({ id, timestamp, title, detail }) => {
+    const {showAlert} = useContext(TodoContext)
+
+    const deleteTodo = async (id,e)=>{
+        e.stopPropagation();
+        const docRef =doc(db,"todo",id)
+        await deleteDoc(docRef)
+        showAlert('error',`todo with id ${id} deleted sucessfuly`);
+    }
     return (
         <ListItem
             sx={{ mt: 3, boxShadow: 3 }}
             style={{ backgroundcolor: "#FAFAFA"}}
+            secondaryAction={
+                <>
+                <IconButton onClick = {e=>deleteTodo(id, e)}>
+                    <DeleteIcon />
+                </IconButton>
+                <IconButton>
+                    <MoreVertIcon />
+                </IconButton>
+                </>
+            }
         >
             <ListItemText
             primary={title}
@@ -13,5 +38,6 @@ const Todo = ({ id, timestamp, title, detail }) => {
             />
         </ListItem>
     )
+
 }
 export default Todo
