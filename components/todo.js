@@ -13,7 +13,7 @@ const Todo = ({ id, timestamp, title, detail }) => {
 
     const deleteTodo = async (id,e)=>{
         e.stopPropagation();
-        const docRef =doc(db,"todo",id)
+        const docRef =doc(db,"todos",id)
         await deleteDoc(docRef)
         showAlert('error',`todo with id ${id} deleted sucessfuly`);
     }
