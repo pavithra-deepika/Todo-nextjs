@@ -9,16 +9,16 @@ import { useContext } from "react";
 import { TodoContext } from "../pages/TodoContext";
 
 const Todo = ({ id, timestamp, title, detail }) => {
-    const {showAlert} = useContext(TodoContext)
+    const {showAlert, setTodo } = useContext(TodoContext)
 
     const deleteTodo = async (id,e)=>{
         e.stopPropagation();
-        const docRef =doc(db,"todos",id)
-        await deleteDoc(docRef)
+        const docRef =doc(db,"todos",id);
+        await deleteDoc(docRef);
         showAlert('error',`todo with id ${id} deleted sucessfuly`);
     }
     return (
-        <ListItem
+        <ListItem onClick={() => setTodo({ id, title, detail, timestamp})}
             sx={{ mt: 3, boxShadow: 3 }}
             style={{ backgroundcolor: "#FAFAFA"}}
             secondaryAction={

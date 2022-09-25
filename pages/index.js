@@ -1,17 +1,23 @@
+
 import { Container } from '@mui/system'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
 import TodoForm from '../components/TodoForm'
 import TodoList from '../components/TodoList'
+import Todo from '../components/todo'
+
 import styles from '../styles/Home.module.css'
 import { TodoContext } from '../pages/TodoContext'
 import { Alert, Snackbar } from '@mui/material'
+import { collection, doc, setDoc, orderBy, onSnapshot,query} from "@firebase/firestore"; 
 
 export default function Home() {
   const [open, setOpen] = useState (false);
   const [alertType, setAlertType] = useState ("success");
   const [alertMessage, setAlertMessage] =useState("");
+  const [todo, setTodo] =useState({ title: "", detail: ""});
+
   const showAlert = (type,msg) => {
     setAlertType(type);
     setAlertMessage(msg);
@@ -25,7 +31,7 @@ export default function Home() {
   };
 
   return (
-    <TodoContext.Provider value={{showAlert}}>
+    <TodoContext.Provider value={{ showAlert, todo, setTodo}}>
     <Container maxWidth="sm">
       <TodoForm />
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
