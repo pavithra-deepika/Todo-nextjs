@@ -13,7 +13,7 @@ const TodoForm = () => {
 
     const {showAlert, todo, setTodo} = useContext(TodoContext)
     const onSubmit = async () => {
-        if (todo?.hasOwnProperty('timesstamp')){
+        if (todo?.hasOwnProperty('timestamp')){
             //update the todo 
             const docRef = doc(db, "todos", todo.id);
             const todoUpdated = { ...todo, timestamp: serverTimestamp()}
@@ -52,7 +52,7 @@ const TodoForm = () => {
              value={todo.detail}
              onChange={e => setTodo({ ...todo, detail: e.target.value})}
              />
-            <Button onClick={onSubmit}  variant="contained" sx={ {mt:3}}>{todo.hasOwnProperty('timestamp')?'update todo' : 'Add a new todo'}</Button>
+            <Button onClick={onSubmit}  variant="contained" sx={ {mt:3 }}>{todo.hasOwnProperty('timestamp')?'Update todo': "Add a new todo "}</Button>
 
         </div>
 
