@@ -1,6 +1,6 @@
 import { async } from "@firebase/util"
 import{Button, TextField} from "@mui/material"
-import { addDoc, serverTimestamp } from "firebase/firestore"
+import { addDoc, serverTimestamp, updateDoc } from "firebase/firestore"
 import { useContext, useEffect, useRef, useState } from "react"
 import {db} from "../firebase"
 import { collection, doc, setDoc, orderBy, onSnapshot,query} from "@firebase/firestore"; 
@@ -9,14 +9,25 @@ import { TodoContext } from "../pages/TodoContext"
 
 const TodoForm = () => {
     const inputAreaRef =useRef();
+    // <pre>{JSON.stringify(todo,null,'\t')}</pre>
 
     const {showAlert, todo, setTodo} = useContext(TodoContext)
     const onSubmit = async () => {
-        const collectionRef = collection(db, "todos")
-        const docRef =await addDoc(collectionRef,{...todo, timestamp:serverTimestamp() })
-        setTodo({ title:'',detail:''})
-        showAlert ('success',`Todo with id ${docRef.id} is added sucessfully`)
-    }
+        if (todo?.hasOwnProperty('timesstamp')){
+            //update the todo 
+            const docRef = doc(db, "todos", todo.id);
+            const todoUpdated = { ...todo, timestamp: serverTimestamp()}
+            updateDoc(docRef, todoUpdated)
+            setTodo({ title: '', detail: ''});
+            showAlert('info', `Todo with id ${todo.id} updated sucessfully`)
+        } else {
+            const collectionRef = collection(db, "todos")
+            const docRef =await addDoc(collectionRef,{...todo, timestamp:serverTimestamp() })
+            setTodo({ title:'',detail:''})
+            showAlert ('success',`Todo with id ${docRef.id} is added sucessfully`)
+
+        }
+        }  
     useEffect(() => {
         const checkIfclickedOutside = e => {
         if(!inputAreaRef.current.contains(e.target)){
@@ -41,7 +52,7 @@ const TodoForm = () => {
              value={todo.detail}
              onChange={e => setTodo({ ...todo, detail: e.target.value})}
              />
-            <Button onClick={onSubmit}  variant="contained" sx={ {mt:3}}>Add anew todo </Button>
+            <Button onClick={onSubmit}  variant="contained" sx={ {mt:3}}>{todo.hasOwnProperty('timestamp')?'update todo' : 'Add a new todo'}</Button>
 
         </div>
 
