@@ -3,18 +3,22 @@ import { IconButton, ListItem, ListItemText } from "@mui/material"
 import { Delete } from "@mui/icons-material"
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useContext } from "react";
 import { TodoContext } from "../pages/TodoContext";
 
 const Todo = ({ id, timestamp, title, detail }) => {
-    const {showAlert, setTodo } = useContext(TodoContext)
+    const {showAlert,  setTodo } = useContext(TodoContext)
 
     const deleteTodo = async (id,e)=>{
-        e.stopPropagation();
-        const docRef =doc(db,"todos",id);
-        await deleteDoc(docRef);
+        const docRef = doc(db, "todos", id);
+        const todoUpdated = { timestamp: serverTimestamp(), status : false}
+        updateDoc(docRef, todoUpdated)
+        // setTodo({ title: '', detail: ''});
+        // e.stopPropagation();
+        // const docRef =doc(db,"todos",id);
+        // await deleteDoc(docRef);
         showAlert('error',`todo with id ${id} deleted sucessfuly`);
     }
     return (
@@ -29,6 +33,7 @@ const Todo = ({ id, timestamp, title, detail }) => {
                 <IconButton>
                     <MoreVertIcon />
                 </IconButton>
+
                 </>
             }
         >
