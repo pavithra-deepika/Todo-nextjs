@@ -43,7 +43,8 @@ yarn dev
 
   <h4>Update the ToDo List</h4>
     <img width="400" alt="react" src="image2.png"> &emsp;
-
+ <h4> Todo list Seprate in fav, non fav<h4>
+     <img width="400" alt="react" src="image3.png"> &emsp;
 <img>
 ## Built by
 👤 **Bavithra s**

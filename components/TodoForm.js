@@ -16,7 +16,7 @@ const TodoForm = () => {
         if (todo?.hasOwnProperty('timestamp')){
             //update the todo 
             const docRef = doc(db, "todos", todo.id);
-            const todoUpdated = { ...todo, timestamp: serverTimestamp()}
+            const todoUpdated = { ...todo, timestamp: serverTimestamp(), favourite:false}
             updateDoc(docRef, todoUpdated)
             setTodo({ title: '', detail: ''});
             showAlert('info', `Todo with id ${todo.id} updated sucessfully`)
